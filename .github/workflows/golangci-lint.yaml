@@ -35,19 +35,19 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
 
-      - name: Generate GitHub App Token
-        id: generate-token
-        uses: tibdex/github-app-token@v2
-        with:
-          app_id: 968155
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      # - name: Generate GitHub App Token
+      #   id: generate-token
+      #   uses: tibdex/github-app-token@v2
+      #   with:
+      #     app_id: 968155
+      #     private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
-        env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        # env:
+        #   GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
-          git config --global url."https://${{ steps.generate-token.outputs.token }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://${{ secrets.APP_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
       - name: Fetch Dependencies
         run: go mod tidy
