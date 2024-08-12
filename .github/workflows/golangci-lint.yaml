@@ -40,7 +40,7 @@ jobs:
         uses: tibdex/github-app-token@v2
         with:
           app_id: 968155
-          app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
