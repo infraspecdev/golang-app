@@ -14,9 +14,6 @@ on:
       APP_PRIVATE_KEY:
         description: 'The private key for the GitHub App'
         required: true
-      APP_TOKEN:
-        description: 'The GitHub App Token'
-        required: false
 
 jobs:
   lint:
@@ -38,19 +35,19 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
 
-      - name: Add SSH Go Module Private Key
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.APP_PRIVATE_KEY }}"
-          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+      - name: Generate GitHub App Token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: 968155
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Setup access for private Go modules
+      - name: Configure Git for Private Modules
+        if: inputs.use-private-module == true
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
-          git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://${{ steps.generate-token.outputs.token }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
       - name: Fetch Dependencies
         run: go mod tidy
