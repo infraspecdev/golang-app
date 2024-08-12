@@ -50,7 +50,7 @@ jobs:
         # env:
         #   GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
-          git config --global url."https://${{ secrets.APP_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://${{ secrets.APP_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
       - name: Fetch Dependencies
         run: go mod tidy
