@@ -24,7 +24,7 @@ on:
       prefix:
         description: 'A prefix to use for the Docker image tags'
         type: string
-      type:
+      tag-type:
         description: 'The type of build (e.g., release, snapshot)'
         type: string
 
@@ -78,7 +78,7 @@ jobs:
           images: |
             ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
           tags: |
-            type=${{ inputs.type }},prefix=${{ inputs.prefix }}-
+            type=${{ inputs.tag-type }},prefix=${{ inputs.prefix }}-
 
       - name: Build and push docker image to Amazon ECR
         uses: docker/build-push-action@v5
