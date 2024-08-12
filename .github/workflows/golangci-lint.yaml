@@ -10,14 +10,10 @@ on:
       use-private-module:
         description: 'Flag to use private module'
         type: boolean
-      github-owner:
-        description: 'The GitHub owner of the private module'
-        required: false
-        type: string
     secrets:
-      GH_TOKEN:
-        description: 'The GitHub token to use'
-        required: false
+      APP_PRIVATE_KEY:
+        description: 'The private key for the GitHub App'
+        required: true
 
 jobs:
   lint:
@@ -39,11 +35,19 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
 
+      - name: Generate GitHub App Token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: 968155
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
-          git config --global url."https://${{ secrets.GH_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-          echo "GOPRIVATE=github.com/${{ inputs.github-owner }}/*" >> $GITHUB_ENV
+          git config --global url."https://${{ steps.generate-token.outputs.token }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
       - name: Fetch Dependencies
         run: go mod tidy

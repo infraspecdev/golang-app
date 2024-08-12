@@ -19,14 +19,18 @@ jobs:
     uses: ./.github/workflows/golangci-lint.yaml
     with:
       go-version: 'stable'
-      use-private-module: false
+      use-private-module: true
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
   test:
     uses: ./.github/workflows/golangci-test.yaml
     needs: lint
     with:
       go-version: 'stable'
-      use-private-module: false
+      use-private-module: true
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
   build:
     uses: ./.github/workflows/golangci-build.yaml
@@ -38,6 +42,7 @@ jobs:
       platforms: 'linux/amd64'
       prefix: 'sha'
       tag-type: 'sha'
-      use-private-module: false
+      use-private-module: true
     secrets:
       ASSUME_ROLE: ${{ secrets.ASSUME_ROLE }}
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
