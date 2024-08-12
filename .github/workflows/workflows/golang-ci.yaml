@@ -1,0 +1,43 @@
+name: Golang CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: read
+  statuses: write
+  id-token: write
+  
+jobs:
+  lint:
+    uses: ./.github/workflows/golangci-lint.yaml
+    with:
+      go-version: 'stable'
+      use-private-module: false
+
+  test:
+    uses: ./.github/workflows/golangci-test.yaml
+    needs: lint
+    with:
+      go-version: 'stable'
+      use-private-module: false
+
+  build:
+    uses: ./.github/workflows/golangci-build.yaml
+    needs: test
+    with:
+      ecr-repository: 'golang'
+      aws-region: 'ap-south-1'
+      dockerfile: Dockerfile
+      platforms: 'linux/amd64'
+      prefix: 'sha'
+      tag-type: 'sha'
+      use-private-module: false
+    secrets:
+      ASSUME_ROLE: ${{ secrets.ASSUME_ROLE }}
