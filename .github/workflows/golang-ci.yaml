@@ -22,7 +22,7 @@ jobs:
       use-private-module: true
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
-      APP_TOKEN: ${{ secrets.GH_APP_TOKEN }}
+      GH_APP_TOKEN: ${{ secrets.GH_APP_TOKEN }}
 
   test:
     uses: ./.github/workflows/golangci-test.yaml
