@@ -42,13 +42,18 @@ jobs:
           app-id: 968155
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Debug Token
+      - name: Print GitHub Token
         run: echo "${{ steps.generate-token.outputs.token }}"
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
         run: |
+          echo "https://${{ steps.generate-token.outputs.token }}@github.com/" > ~/.git-credentials
+          git config --global credential.helper 'store --file ~/.git-credentials'
           git config --global url."https://${{ steps.generate-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
+
+      - name: Clean Go Module Cache
+        run: go clean -modcache
 
       - name: Fetch Dependencies
         run: go mod tidy
