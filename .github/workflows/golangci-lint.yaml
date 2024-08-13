@@ -49,7 +49,7 @@ jobs:
         if: inputs.use-private-module == true
         run: |
           git config --global url."https://${{ steps.generate-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
-          echo "GOPRIVATE=github.com/infraspecdev/*" >> $GITHUB_ENV
+          go env -w GOPRIVATE=github.com/infraspecdev/
 
       - name: Fetch Dependencies
         run: go mod tidy
