@@ -14,7 +14,7 @@ on:
       APP_PRIVATE_KEY:
         description: 'The private key for the GitHub App'
         required: true
-      GH_APP_TOKEN:
+      APP_TOKEN:
         description: 'The token for the GitHub App'
         required: true
 
@@ -48,7 +48,7 @@ jobs:
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
         run: |
-          git config --global url."https://${{ secrets.GH_APP_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://${{ secrets.APP_TOKEN }}@github.com/".insteadOf "https://github.com/"
           echo "GOPRIVATE=github.com/*" >> $GITHUB_ENV
 
       - name: Fetch Dependencies
