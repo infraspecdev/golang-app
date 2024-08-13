@@ -44,6 +44,7 @@ jobs:
         with:
           app-id: 968155
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
@@ -53,7 +54,7 @@ jobs:
 
       - name: test git clone on a repo with token
         run: |
-          git clone https://infraspecdev:${{ steps.generate-token.outputs.token }}@github.com/infraspecdev/exemplar-iac.git
+          git clone https://infraspecdev:${{ steps.generate-token.outputs.token }}@github.com/infraspecdev/golang-private-module.git
           ls
 
       - name: Fetch Dependencies
