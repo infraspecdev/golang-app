@@ -1,3 +1,3 @@
-module github.com/Rahul-4480/go-lang
+module github.com/infraspecdev/golang-app
 
 go 1.22.5
