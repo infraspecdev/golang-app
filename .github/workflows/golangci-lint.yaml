@@ -47,6 +47,9 @@ jobs:
         run: |
           git config --global url."https://${{ steps.generate-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
 
+      - name: Get Dependencies
+        run: go get 
+
       - name: Fetch Dependencies
         run: go mod tidy
 
