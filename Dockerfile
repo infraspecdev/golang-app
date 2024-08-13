@@ -10,9 +10,8 @@ RUN --mount=type=secret,id=GH_TOKEN \
     echo "GOPRIVATE=github.com/*" >> /etc/environment
 
 # Copy the Go module files and download dependencies
-RUN go get
-COPY go.mod go.sum ./
 RUN go mod tidy
+COPY go.mod go.sum ./
 
 # Copy the rest of the application code
 COPY . .

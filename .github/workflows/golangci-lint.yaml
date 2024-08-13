@@ -14,9 +14,6 @@ on:
       APP_PRIVATE_KEY:
         description: 'The private key for the GitHub App'
         required: true
-      APP_TOKEN:
-        description: 'The token for the GitHub App'
-        required: true
 
 jobs:
   lint:
@@ -38,17 +35,17 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
 
-      # - name: Generate GitHub App Token
-      #   id: generate-token
-      #   uses: actions/create-github-app-token@v1
-      #   with:
-      #     app-id: 968155
-      #     private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: Generate GitHub App Token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: 968155
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
         run: |
-          git config --global url."https://${{ secrets.APP_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://${{ steps.generate-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
           echo "GOPRIVATE=github.com/*" >> $GITHUB_ENV
 
       - name: Fetch Dependencies
