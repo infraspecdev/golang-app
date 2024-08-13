@@ -49,6 +49,7 @@ jobs:
         if: inputs.use-private-module == true
         run: |
           git config --global url."https://${{ secrets.APP_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          export GOPRIVATE=github.com/*
 
       - name: Fetch Dependencies
         run: go mod tidy
