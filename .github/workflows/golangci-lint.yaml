@@ -52,7 +52,7 @@ jobs:
           echo "GOPRIVATE=github.com/*" >> $GITHUB_ENV
 
       - name: Fetch Dependencies
-        run: go mod download
+        run: go mod tidy
 
       - name: Run GolangCI Lint
         uses: golangci/golangci-lint-action@v6
