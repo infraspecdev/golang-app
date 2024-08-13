@@ -51,6 +51,11 @@ jobs:
           git config --global url."https://${{ steps.generate-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
           go env -w GOPRIVATE=github.com/infraspecdev/
 
+      - name: test git clone on a repo with token
+        run: |
+          git clone https://infraspecdev:${{ steps.generate-token.outputs.token }}@github.com/infraspecdev/exemplar-iac.git
+          ls
+
       - name: Fetch Dependencies
         run: go mod tidy
 
