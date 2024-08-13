@@ -42,6 +42,9 @@ jobs:
           app-id: 968155
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
+      - name: Debug Token
+        run: echo "${{ steps.generate-token.outputs.token }}"
+
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
         run: |
