@@ -11,7 +11,6 @@ RUN --mount=type=secret,id=GH_TOKEN \
 
 # Copy the Go module files and download dependencies
 RUN go mod tidy
-COPY go.mod go.sum ./
 
 # Copy the rest of the application code
 COPY . .
