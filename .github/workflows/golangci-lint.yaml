@@ -42,13 +42,15 @@ jobs:
           app-id: 968155
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: infraspecdev  
-          repositories: "golang-private-module"
+          repositories: "golang-private-module"  
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
         run: |
-          git config --global url."https://${{ steps.generate-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
-          go env -w GOPRIVATE=github.com/infraspecdev/
+          git config --global credential.helper store
+          echo "https://${{ steps.generate-token.outputs.token }}:x-oauth-basic@github.com" > ~/.git-credentials
+          go env -w GOPRIVATE=github.com/infraspecdev
+          go env -w GONOSUMDB=github.com/infraspecdev
 
       - name: Test Git Clone on a Repo with Token
         if: inputs.use-private-module == true
