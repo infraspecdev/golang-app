@@ -20,6 +20,7 @@ jobs:
     with:
       go-version: 'stable'
       use-private-module: true
+      github-app-id: 968155
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -44,6 +45,7 @@ jobs:
       prefix: 'sha'
       tag-type: 'sha'
       use-private-module: true
+      github-app-id: 968155
     secrets:
       ASSUME_ROLE: ${{ secrets.ASSUME_ROLE }}
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}

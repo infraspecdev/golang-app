@@ -24,7 +24,9 @@ on:
       tag-type:
         description: 'The type of build (e.g., release, snapshot)'
         type: string
-
+      github-app-id:
+        description: 'The ID of the Github App'
+        type: number
     secrets:
       ASSUME_ROLE:
         required: true
@@ -82,8 +84,9 @@ jobs:
         id: generate-token
         uses: actions/create-github-app-token@v1
         with:
-          app-id: 968155
+          app-id: ${{ inputs.github-app-id }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
       - name: Build and push docker image to Amazon ECR
         uses: docker/build-push-action@v5

@@ -46,13 +46,12 @@ jobs:
         with:
           app-id: ${{ inputs.github-app-id }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}  
+          owner: ${{ github.repository_owner }}
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
         run: |
-          git config --global credential.helper store
-          echo "https://${{ steps.generate-token.outputs.token }}@github.com" > ~/.git-credentials
+          git config --global url."https://${{ github.repository_owner }}:${{ steps.generate-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
           go env -w GOPRIVATE=github.com/*
 
       - name: Fetch Dependencies
