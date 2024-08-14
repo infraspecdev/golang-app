@@ -4,15 +4,15 @@ FROM golang:latest
 # Set the working directory inside the container
 WORKDIR /app
 
+# Copy the rest of the application code
+COPY . .
+
 # Set up environment variables for private modules
 RUN --mount=type=secret,id=GH_TOKEN \
     git config --global url."https://infraspecdev:$(cat /run/secrets/GH_TOKEN)@github.com/".insteadOf "https://github.com/" && \
     echo "GOPRIVATE=github.com/*" >> /etc/environment
 
-RUN go get
-
-# Copy the rest of the application code
-COPY . .
+RUN go mod tidy
 
 # Build the Go application
 RUN go build -o helloserver server.go
