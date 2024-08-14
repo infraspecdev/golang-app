@@ -47,7 +47,7 @@ jobs:
         if: inputs.use-private-module == true
         run: |
           git config --global credential.helper store
-          echo "https://infraspecdev:${{ steps.generate-token.outputs.token }}@github.com" > ~/.git-credentials
+          echo "https://${{ github.repository_owner }}:${{ steps.generate-token.outputs.token }}@github.com" > ~/.git-credentials
           go env -w GOPRIVATE=github.com/*
 
       - name: Fetch Dependencies
