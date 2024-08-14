@@ -14,9 +14,6 @@ on:
       APP_PRIVATE_KEY:
         description: 'The private key for the GitHub App'
         required: true
-      APP_TOKEN:
-        description: 'The token for the GitHub App'
-        required: true
 
 jobs:
   lint:
@@ -44,7 +41,6 @@ jobs:
         with:
           app-id: 968155
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
@@ -52,10 +48,13 @@ jobs:
           git config --global url."https://${{ steps.generate-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
           go env -w GOPRIVATE=github.com/infraspecdev/
 
-      - name: test git clone on a repo with token
+      - name: Test Git Clone on a Repo with Token
+        if: inputs.use-private-module == true
         run: |
           git clone https://infraspecdev:${{ steps.generate-token.outputs.token }}@github.com/infraspecdev/golang-private-module.git
-          ls
+          cd golang-private-module
+          ls -al
+
 
       - name: Fetch Dependencies
         run: go mod tidy
