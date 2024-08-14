@@ -41,8 +41,7 @@ jobs:
         with:
           app-id: 968155
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }} 
-          repositories: "golang-private-module"  
+          owner: ${{ github.repository_owner }}  
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
