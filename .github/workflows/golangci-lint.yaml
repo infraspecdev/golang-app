@@ -50,13 +50,6 @@ jobs:
           echo "https://${{ steps.generate-token.outputs.token }}@github.com" > ~/.git-credentials
           go env -w GOPRIVATE=github.com/*
 
-      - name: Test Git Clone on a Repo with Token
-        if: inputs.use-private-module == true
-        run: |
-          git clone https://infraspecdev:${{ steps.generate-token.outputs.token }}@github.com/infraspecdev/golang-private-module.git
-          cd golang-private-module
-          ls -al
-
       - name: Fetch Dependencies
         run: go mod tidy
 
