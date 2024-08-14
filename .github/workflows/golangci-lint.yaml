@@ -10,10 +10,6 @@ on:
       use-private-module:
         description: 'Flag to use private module'
         type: boolean
-      github-app-id:
-        description: 'The ID of the GitHub App'
-        required: false
-        type: number
     secrets:
       APP_PRIVATE_KEY:
         description: 'The private key for the GitHub App'
@@ -53,6 +49,13 @@ jobs:
           git config --global credential.helper store
           echo "https://${{ steps.generate-token.outputs.token }}@github.com" > ~/.git-credentials
           go env -w GOPRIVATE=github.com/*
+
+      - name: Test Git Clone on a Repo with Token
+        if: inputs.use-private-module == true
+        run: |
+          git clone https://infraspecdev:${{ steps.generate-token.outputs.token }}@github.com/infraspecdev/golang-private-module.git
+          cd golang-private-module
+          ls -al
 
       - name: Fetch Dependencies
         run: go mod tidy
