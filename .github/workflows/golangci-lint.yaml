@@ -41,6 +41,8 @@ jobs:
         with:
           app-id: 968155
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: infraspecdev  
+          repositories: "golang-private-module"
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
