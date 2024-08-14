@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Set up environment variables for private modules
 RUN --mount=type=secret,id=GH_TOKEN \
-    git config --global url."https://$(cat /run/secrets/GH_TOKEN)@github.com/".insteadOf "https://github.com/" && \
+    git config --global url."https://infraspecdev:$(cat /run/secrets/GH_TOKEN)@github.com/".insteadOf "https://github.com/" && \
     echo "GOPRIVATE=github.com/*" >> /etc/environment
 
 # Copy the Go module files and download dependencies
