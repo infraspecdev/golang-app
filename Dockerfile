@@ -9,11 +9,7 @@ RUN --mount=type=secret,id=GH_TOKEN \
     git config --global url."https://infraspecdev:$(cat /run/secrets/GH_TOKEN)@github.com/".insteadOf "https://github.com/" && \
     echo "GOPRIVATE=github.com/*" >> /etc/environment
 
-# Copy the Go module files and download dependencies
-
-COPY go.mod go.sum ./
-
-RUN go mod tidy
+RUN go get
 
 # Copy the rest of the application code
 COPY . .
