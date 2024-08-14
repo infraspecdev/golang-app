@@ -10,6 +10,10 @@ on:
       use-private-module:
         description: 'Flag to use private module'
         type: boolean
+      github-app-id:
+        description: 'The ID of the GitHub App'
+        required: false
+        type: number
     secrets:
       APP_PRIVATE_KEY:
         description: 'The private key for the GitHub App'
@@ -40,8 +44,9 @@ jobs:
         id: generate-token
         uses: actions/create-github-app-token@v1
         with:
-          app-id: 968155
+          app-id: ${{ inputs.github-app-id }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}  
 
       - name: Configure Git for Private Modules
         if: inputs.use-private-module == true
