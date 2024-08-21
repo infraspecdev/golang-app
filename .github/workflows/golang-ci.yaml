@@ -15,7 +15,7 @@ permissions:
   id-token: write
   
 jobs:
-  lint:
+  CI:
     uses: infraspecdev/generic-workflows/.github/workflows/golang-ci.yml@main
     with:
       go-version: "1.22.6"
@@ -25,3 +25,13 @@ jobs:
     secrets:
       ASSUME_ROLE: ${{ secrets.ASSUME_ROLE }}
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  CD:
+    uses: infraspecdev/generic-workflows/blob/main/.github/workflows/golang-deploy.yml@main
+    with:
+      ecs-cluster: "default"
+      ecs-service: "golang"
+      task-definition-family: "golang"
+      image: "471112575944.dkr.ecr.ap-south-1.amazonaws.com/golang:sha-68f7ba9"
+    secrets:
+      assume-role: ${{ secrets.ASSUME_ROLE }}
