@@ -30,8 +30,8 @@ jobs:
     uses: infraspecdev/generic-workflows/.github/workflows/golang-deploy.yml@main
     with:
       ecs-cluster: "default-cluster"
-      ecs-service: "golang"
-      task-definition-family: "golang"
+      ecs-service: "nginx"
+      task-definition-family: "nginx"
       image: "471112575944.dkr.ecr.ap-south-1.amazonaws.com/golang:sha-68f7ba9"
     secrets:
       assume-role: ${{ secrets.ASSUME_ROLE }}
