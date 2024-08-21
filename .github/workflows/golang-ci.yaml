@@ -18,7 +18,7 @@ jobs:
   lint:
     uses: infraspecdev/generic-workflows/.github/workflows/golang-ci.yml@main
     with:
-      go-version: "1.23.0"
+      go-version: "1.22.6"
       use-private-module: true
       github-app-id: 968155
       ecr-repository: golang
