@@ -15,13 +15,23 @@ permissions:
   id-token: write
   
 jobs:
-  CI:
-    uses: infraspecdev/generic-workflows/.github/workflows/golang-ci.yml@main
+  # CI:
+  #   uses: infraspecdev/generic-workflows/.github/workflows/golang-ci.yml@main
+  #   with:
+  #     go-version: "1.22.6"
+  #     use-private-module: true
+  #     github-app-id: 968155
+  #     ecr-repository: golang
+  #   secrets:
+  #     ASSUME_ROLE: ${{ secrets.ASSUME_ROLE }}
+  #     APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  CD:
+    uses: infraspecdev/generic-workflows/.github/workflows/golang-deploy.yml@main
     with:
-      go-version: "1.22.6"
-      use-private-module: true
-      github-app-id: 968155
-      ecr-repository: golang
+      ecs-cluster: "default-cluster"
+      ecs-service: "golang"
+      task-definition-family: "golang-app"
+      image: "471112575944.dkr.ecr.ap-south-1.amazonaws.com/golang:sha-68f7ba9"
     secrets:
-      ASSUME_ROLE: ${{ secrets.ASSUME_ROLE }}
-      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      assume-role: ${{ secrets.ASSUME_ROLE }}
