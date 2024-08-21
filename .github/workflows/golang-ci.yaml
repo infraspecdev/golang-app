@@ -16,7 +16,7 @@ permissions:
   
 jobs:
   lint:
-    uses: infraspecdev/generic-workflows/.github/workflows/golang-ci.yaml@main
+    uses: infraspecdev/generic-workflows/.github/workflows/golang-ci.yml@main
     with:
       go-version: "stable"
       use-private-module: true
