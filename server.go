@@ -49,7 +49,9 @@ func version(w http.ResponseWriter, r *http.Request) {
 }
 
 func greet(w http.ResponseWriter, r *http.Request) {
+
 	hello.PrintHello()
+	
 	name := strings.Trim(r.URL.Path, "/")
 	if name == "" {
 		name = "Infraspec"
