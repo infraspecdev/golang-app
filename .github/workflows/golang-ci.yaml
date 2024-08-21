@@ -27,7 +27,7 @@ jobs:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
   CD:
-    uses: infraspecdev/generic-workflows/blob/main/.github/workflows/golang-deploy.yml@main
+    uses: infraspecdev/generic-workflows/.github/workflows/golang-deploy.yml@main
     with:
       ecs-cluster: "default"
       ecs-service: "golang"
