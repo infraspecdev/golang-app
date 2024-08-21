@@ -16,36 +16,12 @@ permissions:
   
 jobs:
   lint:
-    uses: ./.github/workflows/golangci-lint.yaml
+    uses: infraspecdev/generic-workflows/.github/workflows/golang-ci.yaml@main
     with:
-      go-version: 'stable'
+      go-version: "stable"
       use-private-module: true
       github-app-id: 968155
-    secrets:
-      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
-
-  test:
-    uses: ./.github/workflows/golangci-test.yaml
-    needs: lint
-    with:
-      go-version: 'stable'
-      use-private-module: true
-      github-app-id: 968155
-    secrets:
-      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
-
-  build:
-    uses: ./.github/workflows/golangci-build.yaml
-    needs: test
-    with:
-      ecr-repository: 'golang'
-      aws-region: 'ap-south-1'
-      dockerfile: Dockerfile
-      platforms: 'linux/amd64'
-      prefix: 'sha'
-      tag-type: 'sha'
-      use-private-module: true
-      github-app-id: 968155
+      ecr-repository: golang
     secrets:
       ASSUME_ROLE: ${{ secrets.ASSUME_ROLE }}
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
