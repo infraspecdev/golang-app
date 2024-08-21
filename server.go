@@ -9,6 +9,7 @@ import (
 	"os"
 	"runtime/debug"
 	"strings"
+	"github.com/infraspecdev/golang-private-module"
 )
 
 func usage() {
@@ -48,6 +49,7 @@ func version(w http.ResponseWriter, r *http.Request) {
 }
 
 func greet(w http.ResponseWriter, r *http.Request) {
+	hello.PrintHello()
 	name := strings.Trim(r.URL.Path, "/")
 	if name == "" {
 		name = "Infraspec"
