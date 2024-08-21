@@ -28,8 +28,9 @@ jobs:
 
   CD:
     uses: infraspecdev/generic-workflows/.github/workflows/golang-deploy.yml@main
+    needs: CI
     with:
-      ecs-cluster: "default"
+      ecs-cluster: "default-cluster"
       ecs-service: "golang"
       task-definition-family: "golang"
       image: "471112575944.dkr.ecr.ap-south-1.amazonaws.com/golang:sha-68f7ba9"
