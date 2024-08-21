@@ -25,3 +25,4 @@ jobs:
     secrets:
       ASSUME_ROLE: ${{ secrets.ASSUME_ROLE }}
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      
